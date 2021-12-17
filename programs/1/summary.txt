@@ -1,0 +1,122 @@
+Program:
+	const [sig, setSig] = createSignal(0)
+	craeteRoot(() => 
+		createEffect(() => console.log(sig()))
+	)
+	setSig(1)
+
+
+Initial state: {
+   owner: null
+   listener: null
+   effects: null
+   execCount: 0
+}
+
+createSignal {
+   sig: {
+      val: 0
+      observers: null
+   }
+}
+
+createRoot {
+   owner = UNOWNED
+   runUpdates {
+      execCount = 1
+      createEffect {
+         effect: {
+            state: STALE
+            updatedAt: null
+            sources: null
+            owner: null
+            pure: false
+            user: true
+         }
+         effects = [effect]
+      }
+      completeUpdates {
+         runUserEffects => updateComputation {
+            effect.state = READY
+            listener = effect
+            owner = effect
+            effectCB {
+               readSig {
+                  effect.sources = [sig]
+                  sig.observers = [effect]
+               }
+               console.log(0)
+            }
+            effect.updatedAt = 1
+            listener = null
+            owner = UNOWNED
+         }
+         effects = null
+      }
+   }
+   owner = null
+}
+
+
+setSig {
+   updateSigObservers {
+      runUpdates {
+         execCount = 3
+         sig.val = 1
+         effects = [effect]
+         effect.state = STALE
+         completeUpdates {
+            batch {
+               batchCb {
+                  runUserEffects {
+                     runTop {
+                        updateComputation {
+                           cleanNode {
+                              sig.observers = []
+                              effect.sources = []
+                              effect.state = READY
+                           }
+                           listener = effect
+                           owner = effect
+                           runComputation {
+                              effectCb {
+                                 readSig {
+                                    subscribeListenerToSig {
+                                       sig.observers = [listener]
+                                       sig.observerSlots = [0]
+                                       effect.sources = [sig]
+                                       effect.sourceSlots = [0]
+                                    }
+                                    console.log(1)
+                                 }
+                              }
+
+                              effect.updateAt = 3
+                           }
+
+                           listener = null
+                           owner = null
+                        }
+                     }
+                  }
+
+                  effects = null
+               }
+
+               pendingSigs = []
+
+               runUpdates {
+                  updates = []
+                  effects = []
+                  execCount = 4
+
+                  completeUpdates {
+                     updates = null
+                     effects = null
+                  }
+               }
+            }
+         }
+      }
+   }
+}

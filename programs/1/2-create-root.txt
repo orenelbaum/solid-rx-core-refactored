@@ -1,0 +1,70 @@
+
+createRoot {
+   owner = UNOWNED
+
+   runUpdates {
+      effects = []
+      execCount = 1
+
+      createEffect {
+         effect: {
+            state: STALE
+            updatedAt: null
+            ownedComputations: null
+            sources: null
+            sourceSlots: null
+            cleanupCbs: null
+            val: null
+            owner: null
+            pure: false
+            user: true
+         }
+
+         effects = [effect]
+         runEffects = runUserEffects
+      }
+
+      completeUpdates {
+         batch {
+            pendingSigs = []
+
+            batchCb {
+               runUserEffects {
+                  updateComputation {
+                     effect.state = READY
+
+                     listener = effect
+                     owner = effect
+
+                     effectCB {
+                        readSig {
+                           effect.sources = [sig]
+                           effect.sourceSlots = [0]
+                           sig.observers = [effect]
+                           sig.observerSlots = [0]
+                        }
+
+                        console.log(0)
+                     }
+
+                     effect.updatedAt = 1
+
+                     listener = null
+                     owner = UNOWNED
+                  }
+               }
+
+               effects = null
+            }
+
+            pendingSigs = null
+
+            runUpdates {
+               execCount = 2
+            }
+         }
+      }
+   }
+
+   owner = null
+}

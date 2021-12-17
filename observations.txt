@@ -1,0 +1,7 @@
+
+- All computations are run inside runUpdates.
+
+- The state gets mostly reset between separate entries into the reactive system.
+
+- Memos, computeds, and render effects call updateComputation immidiately.
+  Effects will run in the completeUpdates function of the owner.

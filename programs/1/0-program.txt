@@ -1,0 +1,20 @@
+
+Program:
+	const [sig, setSig] = createSignal(0)
+
+	craeteRoot(() => 
+		createEffect(() => console.log(sig()))
+	)
+
+	setSig(1)
+
+
+Initial state: {
+   owner: null
+   listener: null
+   pendingSigs: null
+   updates: null
+   effects: null
+   execCount: 0
+   runEffects: runQueue
+}

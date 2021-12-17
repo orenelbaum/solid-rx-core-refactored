@@ -1,0 +1,10 @@
+
+createSignal {
+   sig: {
+      val: 0
+      observers: null
+      observerSlots: null
+      pendingVal: NOT_PENDING
+      comparator: (x, y) => x === y
+   }
+}

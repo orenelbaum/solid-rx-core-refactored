@@ -1,0 +1,6 @@
+{
+   "include": ["./src/**/*"],
+   "compilerOptions": {
+      "lib": ["ES2015", "DOM"]
+   }
+}

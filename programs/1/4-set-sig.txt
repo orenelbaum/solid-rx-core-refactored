@@ -1,0 +1,80 @@
+
+setSig {
+   writeToSig {
+      updateSigObservers {
+         runUpdates {
+            updates = []
+            effects = []
+            execCount = 3
+
+            runUpdatesCb {
+               registerObserversAndNotifyDownstream {
+                  sig.val = 1
+                  effects = [effect]
+                  effect.state = STALE
+               }
+            }
+
+            completeUpdates {
+               state.updates = null
+               batch {
+                  pendingSigs = []
+
+                  batchCb {
+                     runUserEffects {
+                        runTop {
+                           updateComputation {
+                              cleanNode {
+                                 sig.observers = []
+                                 sig.observerSlots = []
+                                 effect.sources = []
+                                 effect.sourceSlots = []
+                                 effect.state = READY
+                              }
+
+                              listener = effect
+                              owner = effect
+
+                              runComputation {
+                                 effectCb {
+                                    readSig {
+                                       subscribeListenerToSig {
+                                          sig.observers = [listener]
+                                          sig.observerSlots = [0]
+                                          effect.sources = [sig]
+                                          effect.sourceSlots = [0]
+                                       }
+                                       console.log(1)
+                                    }
+                                 }
+
+                                 effect.updateAt = 3
+                              }
+
+                              listener = null
+                              owner = null
+                           }
+                        }
+                     }
+
+                     effects = null
+                  }
+
+                  pendingSigs = []
+
+                  runUpdates {
+                     updates = []
+                     effects = []
+                     execCount = 4
+
+                     completeUpdates {
+                        updates = null
+                        effects = null
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+}

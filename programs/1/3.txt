@@ -1,0 +1,31 @@
+
+state: {
+   owner: null
+   listener: null
+   pendingSigs: null
+   updates: null
+   effects: null
+   execCount: 2
+   runEffects: runUserEffects
+}
+
+sig: {
+   val: 0
+   observers: [effect]
+   observerSlots: [0]
+   pendingVal: NOT_PENDING
+   comparator: (x, y) => x === y
+}
+
+effect: {
+   state: READY
+   updatedAt: 1
+   ownedComputations: null
+   sources: [sig]
+   sourceSlots: [0]
+   cleanupCbs: null
+   val: null
+   owner: null
+   pure: false
+   user: true
+}
